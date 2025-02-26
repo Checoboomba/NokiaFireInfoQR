@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          path: NokiaFireInfoQR
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
@@ -25,19 +23,17 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: NokiaFireInfoQR
 
       - name: Build and test
         run: |
           npm run build --if-present
           npm run test --if-present
-        working-directory: NokiaFireInfoQR
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: NokiaFireInfoQR
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
@@ -68,4 +64,4 @@ jobs:
         with:
           app-name: 'NokiaFire-TagInfo'
           slot-name: 'Production'
-          package: node-app
+          package: .
